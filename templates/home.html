@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marceau JACQUIN</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <style>
+    
+        .container {
+            position: relative;
+            width: 100vw; /* Prend toute la largeur de la fenêtre */
+            height: 100vh; /* Prend toute la hauteur de la fenêtre */
+            overflow: hidden; /* Empêche le débordement de l'image */
+            display: flex; /* Utilisation du flexbox pour centrer le contenu */
+            justify-content: center;
+            align-items: center;
+        }
+        .text-nom { /*"Marceau Jacquin"*/
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            top: 20px;
+            left: 20px;
+            align-items: left; 
+            z-index: 2;
+        }
+        .text-area {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            max-width: 500px;            
+            align-items: end;
+        }
+        .no-change {
+            position: absolute;
+            z-index: 10;
+            cursor: pointer;
+            background-color: transparent; /* Rendre la zone de protection invisible */
+        }
+
+        .clickable-area {
+            position: fixed; /* Positionne l'élément de manière fixe */
+            top: 0px; /* Distance du haut de la page */
+            right: 0px; /* Distance du bord droit de la page */
+            width: calc(100vw / 8);
+            height: 15vh;
+            text-align: end;
+            line-height: 100px;
+            cursor: pointer;
+            z-index: 10; /* Assure que l'élément est au-dessus d'autres éléments */
+        }
+
+.text-info {/*"Projects/info"*/
+    position: absolute;
+    top: 20px; /* Padding de 10 pixels en haut */
+    right: 20px;
+    width: calc(100vw / 6); /* 1/6 de la largeur de la fenêtre */
+    display: flex;
+    height: 90%;
+    justify-content: right;
+    text-align: end;
+    z-index: 3;
+}
+
+
+.textinfo p {
+    margin: 0;
+}
+
+    </style>
+</head>
+<body>
+    <div class="container" id="image-container">
+        <img id="image" src="{{ url_for('static', filename='images/example1.jpg') }}" alt="Example Image" draggable="false">
+        <div class="text-nom" id="text-nom">Marceau Jacquin</div>
+        <div class="text-area" id="text-area">Texte de l'image 1</div> 
+    </div>
+    <div class="no-change" id="no-change"></div>
+    <div class="clickable-area" onclick="redirectToPage()"></div>
+        <div class="text-info" id="text-info">Info</div>
+
+    <script>
+        function loadContent(section) {
+            const contentDiv = document.getElementById('content');
+            if (section === 'info') {
+                contentDiv.innerHTML = '<h1>Section Info</h1><p>Contenu de la section Info.</p>';
+            } else if (section === 'home') {
+                contentDiv.innerHTML = '<h1>Section Home</h1><p>Contenu de la section Home.</p>';
+            }
+        }
+
+        function redirectToPage() {
+            window.location.href = "{{ url_for('info') }}";
+        }
+
+        function preloadImages(imageUrls) {
+            const preloadedImages = [];
+            imageUrls.forEach(function(url) {
+            const img = new Image();
+            img.src = url;
+            preloadedImages.push(img);
+            });
+            return preloadedImages; 
+        }
+
+
+// Liste des URL de tes images à précharger
+const imagesToPreload = [
+"{{ url_for('static', filename='images/1.jpg') }}",
+"{{ url_for('static', filename='images/2.jpg') }}",
+"{{ url_for('static', filename='images/3.jpg') }}",
+"{{ url_for('static', filename='images/4.jpg') }}",
+"{{ url_for('static', filename='images/5.jpg') }}",
+"{{ url_for('static', filename='images/6.jpg') }}",
+"{{ url_for('static', filename='images/7.jpg') }}",
+"{{ url_for('static', filename='images/8.jpg') }}",
+"{{ url_for('static', filename='images/9.jpg') }}",
+"{{ url_for('static', filename='images/10.jpg') }}",
+"{{ url_for('static', filename='images/11.jpg') }}",
+"{{ url_for('static', filename='images/12.jpg') }}",
+"{{ url_for('static', filename='images/13.jpg') }}",
+"{{ url_for('static', filename='images/14.jpg') }}",
+"{{ url_for('static', filename='images/15.jpg') }}",
+"{{ url_for('static', filename='images/16.jpg') }}",
+"{{ url_for('static', filename='images/17.jpg') }}",
+"{{ url_for('static', filename='images/18.jpg') }}",
+"{{ url_for('static', filename='images/19.jpg') }}",
+"{{ url_for('static', filename='images/20.jpg') }}",
+"{{ url_for('static', filename='images/21.jpg') }}",
+"{{ url_for('static', filename='images/22.jpg') }}",
+"{{ url_for('static', filename='images/23.jpg') }}",
+"{{ url_for('static', filename='images/24.jpg') }}",
+"{{ url_for('static', filename='images/25.jpg') }}",
+"{{ url_for('static', filename='images/26.jpg') }}",
+"{{ url_for('static', filename='images/27.jpg') }}",
+"{{ url_for('static', filename='images/28.jpg') }}",
+"{{ url_for('static', filename='images/29.jpg') }}",
+"{{ url_for('static', filename='images/30.jpg') }}",
+"{{ url_for('static', filename='images/31.jpg') }}",
+"{{ url_for('static', filename='images/32.jpg') }}",
+"{{ url_for('static', filename='images/33.jpg') }}",
+"{{ url_for('static', filename='images/34.jpg') }}",
+"{{ url_for('static', filename='images/35.jpg') }}",
+"{{ url_for('static', filename='images/36.jpg') }}",
+"{{ url_for('static', filename='images/37.jpg') }}",
+"{{ url_for('static', filename='images/38.jpg') }}",
+"{{ url_for('static', filename='images/39.jpg') }}",
+"{{ url_for('static', filename='images/40.jpg') }}",
+"{{ url_for('static', filename='images/41.jpg') }}",
+"{{ url_for('static', filename='images/42.jpg') }}"
+    // Ajoute toutes les autres images ici
+];
+
+const preloadedImages = preloadImages(imagesToPreload);
+        const images = [
+            {
+                src: "{{ url_for('static', filename='images/1.jpg') }}",
+                text: "Richard Mille\nTypedesign for the brand identity\n(w Police Studio)",
+                class : "img-white-HB"
+            },
+            {
+                src: "{{ url_for('static', filename='images/2.jpg') }}",
+                text: "Richard Mille\nTypedesign for the brand identity\n(w Police Studio)",
+                class :"img-white-HB"
+            },
+            {
+                src: "{{ url_for('static', filename='images/3.jpg') }}",
+                text: "Richard Mille\nTypedesign for the brand identity\n(w Police Studio)",
+                class :"img-white-HB"
+            },
+            {
+                src: "{{ url_for('static', filename='images/4.jpg') }}",
+                text: "Richard Mille\nTypedesign for the brand identity\n(w Police Studio)",
+                class :"img-white-HB"
+            },
+            {
+                src: "{{ url_for('static', filename='images/5.jpg') }}",
+                text: "Richard Mille\nTypedesign for the brand identity\n(w Police Studio)",
+                class :"img-white-HB"
+            },
+            {
+                src: "{{ url_for('static', filename='images/6.jpg') }}",
+                text: "Richard Mille\nTypedesign for the brand identity\n(w Police Studio)",
+                class :"img-white-HB"
+            },
+            {
+                src: "{{ url_for('static', filename='images/7.jpg') }}",
+                text: "Hotel Hana\nLogo, assets art direction and design\n(w Jersey / Olivier Leon)",
+                class :"img-white-HB"
+            },
+            {
+                src: "{{ url_for('static', filename='images/8.jpg') }}",
+                text: "Hotel Hana\nLogo, assets art direction and design\n(w Jersey / Olivier Leon)",
+                class :"img-white-HB"
+            },
+            {
+                src: "{{ url_for('static', filename='images/9.jpg') }}",
+                text: "Hotel Hana\nLogo, assets art direction and design\n(w Jersey / Olivier Leon)",
+                class :"img-white-HB" // a changée spécial 9 
+            },
+            {
+                src: "{{ url_for('static', filename='images/10.jpg') }}",
+                text: "Hotel Hana\nLogo, assets art direction and design\n(w Jersey / Olivier Leon)",
+                class :"img-white-HB"
+            },
+            {
+                src: "{{ url_for('static', filename='images/11.jpg') }}",
+                text: "Musé de l'Armée\nArt exhibition posters campaign\n(w Oficina / Elisa Manya)",
+                class :"img-11",
+                textClass : "text-white"
+            },
+            {
+                src: "{{ url_for('static', filename='images/12.jpg') }}",
+                text: "Deadline\nPosters for an exhibition",
+                class :"img-12" //spé 12
+            },
+            {
+                src: "{{ url_for('static', filename='images/13.jpg') }}",
+                text: "Deadline\nPosters for an exhibition",
+                class :"img-12" // spé 12
+            },
+            {
+                src: "{{ url_for('static', filename='images/14.jpg') }}",
+                text: '"Formes Graffitiques"\nMultimedia project',
+                class :"img-black",
+                textClass : "text-white"
+            },
+            {
+                src: "{{ url_for('static', filename='images/15.jpg') }}",
+                text: '"Formes Graffitiques"\nMultimedia project',
+                class : "img-black",
+                textClass : "text-white"
+            },
+            {
+                src: "{{ url_for('static', filename='images/16.jpg') }}",
+                text: '"Formes Graffitiques"\nMultimedia project',
+                class :"img-black-cover",
+                textClass: "text-white"
+            },
+            {
+                src: "{{ url_for('static', filename='images/17.jpg') }}",
+                text: '"Formes Graffitiques"\nMultimedia project',
+                class :"img-black",
+                textClass: "text-white"
+            },
+            {
+                src: "{{ url_for('static', filename='images/18.jpg') }}",
+                text: '"Formes Graffitiques"\nMultimedia projetc',
+                class :"img-black",
+                textClass: "text-white"
+            },
+            {
+                src: "{{ url_for('static', filename='images/19.jpg') }}",
+                text: '"Formes Graffitiques"\nMultimedia projetc',
+                class :"img-black",
+                textClass: "text-white"
+            },
+            {
+                src: "{{ url_for('static', filename='images/20.jpg') }}",
+                text: '"Formes Graffitiques"\nMultimedia projetc',
+                class :"img-black-cover"   
+            },
+            {
+                src: "{{ url_for('static', filename='images/21.jpg') }}",
+                text: "From above vil. 03\nVinyl cover design for Lumière noire\n(w Dune Lunel Studio)",
+                class : "img-21"
+            },
+            {
+                src: "{{ url_for('static', filename='images/22.jpg') }}",
+                text: '"A story of Art"\nBook cover design\n(w Dune Lunel Studio)',
+                class : "img-white-HB"
+            },
+            {
+                src: "{{ url_for('static', filename='images/23.jpg') }}",
+                text: "Texte de l'imag 23",
+                class : "img-black-cover",
+                textClass : "text-white"
+            },
+            {
+                src: "{{ url_for('static', filename='images/24.jpg') }}",
+                text: "Texte de l'imag 24",
+                class : "img-black-cover",
+                textClass : "text-white"
+            },
+            {
+                src: "{{ url_for('static', filename='images/25.jpg') }}",
+                text: "Token\nA neomedieval typeface\nTypedesign\n(w Mathis Brosseau)"
+            },
+            {
+                src: "{{ url_for('static', filename='images/26.jpg') }}",
+                text: "Token\nA neomedieval typeface\nTypedesign\n(w Mathis Brosseau)",
+                class : "img-26"
+
+            },
+            {
+                src: "{{ url_for('static', filename='images/27.jpg') }}",
+                text: "Token\nA neomedieval typeface\nTypedesign\n(w Mathis Brosseau)"
+            },
+            {
+                src: "{{ url_for('static', filename='images/28.jpg') }}",
+                text: "Token\nA neomedieval typeface\nTypedesign\n(w Mathis Brosseau)",
+                class : "img-28"
+            },
+            {
+                src: "{{ url_for('static', filename='images/29.jpg') }}",
+                text: "Torrent, lagon revue 5\nFlyer and logo design",
+                class :"img-black",
+                textClass: "text-white"
+            },
+            {
+                src: "{{ url_for('static', filename='images/30.jpg') }}",
+                text: "Torrent, lagon revue 5\nFlyer and logo design",
+                class :"img-black",
+                textClass: "text-white"
+            },
+            {
+                src: "{{ url_for('static', filename='images/31.jpg') }}",
+                text: "Andrea Crew, Maroussia Rebecq\nManifesto poster for JAD museum\n(w Dune Lunel Studio)",
+                class : "img-12"
+            },
+            {
+                src: "{{ url_for('static', filename='images/32.jpg') }}",
+                text: '"La Bête & la Belle"\nThesis on vernacular typography\nBookdesign\n(w Elisa Manya)',
+                class :"img-black",
+                textClass: "text-white"
+            },
+            {
+                src: "{{ url_for('static', filename='images/33.jpg') }}",                
+                text: '"La Bête & la Belle"\nThesis on vernacular typography\nBookdesign\n(w Elisa Manya)',
+                class :"img-black",
+                textClass: "text-white"
+            },
+            {
+                src: "{{ url_for('static', filename='images/34.jpg') }}",
+                text: '"La Bête & la Belle"\nThesis on vernacular typography\nBookdesign\n(w Elisa Manya)',
+                class :"img-black",
+                textClass: "text-white"
+            },
+            {
+                src: "{{ url_for('static', filename='images/35.jpg') }}",
+                text: '"La Bête & la Belle"\nThesis on vernacular typography\nBookdesign\n(w Elisa Manya)',
+                class :"img-black-cover",
+                textClass: "text-white"
+            },
+            {
+                src: "{{ url_for('static', filename='images/36.jpg') }}",
+                text: '"La Bête & la Belle"\nThesis on vernacular typography\nBookdesign\n(w Elisa Manya)',
+                class :"img-black",
+                textClass: "text-white"
+            },
+            {
+                src: "{{ url_for('static', filename='images/37.jpg') }}",
+                text: '"La Bête & la Belle"\nThesis on vernacular typography\nBookdesign\n(w Elisa Manya)',
+                class :"img-black-cover",
+                textClass: "text-white"
+            },
+            {
+                src: "{{ url_for('static', filename='images/38.jpg') }}",
+                text: "Lumière Noire records\nAlbum cover design\n(w Dune Lunel Studio)",
+                class : "img-album"
+            },
+            {
+                src: "{{ url_for('static', filename='images/39.jpg') }}",
+                text: "Lumière Noire records\nAlbum cover design\n(w Dune Lunel Studio)",
+                class : "img-album"
+            },
+            {
+                src: "{{ url_for('static', filename='images/40.jpg') }}",
+                text: "Lumière Noire records\nAlbum cover design\n(w Dune Lunel Studio)",
+                class : "img-album"
+            },
+            {
+                src: "{{ url_for('static', filename='images/41.jpg') }}",
+                text: "Lumière Noire records\nAlbum cover design\n(w Dune Lunel Studio)",
+                class : "img-album"
+            },            
+
+       ];
+        let currentIndex = 0;
+
+function updateContent() {
+    const image = images[currentIndex];
+    const imageElement = document.getElementById('image');
+    const textArea = document.getElementById('text-area');
+    const textnom = document.getElementById('text-nom');
+    const textContainer = document.getElementById('text-info');
+    const body = document.body;
+
+    imageElement.onload = () => { //met le style après que l'image soit charger 
+        console.log('Image chargée !');
+    };
+
+    // Mettre à jour la source de l'image
+    imageElement.src = image.src;
+    textArea.innerText = image.text;
+
+    // Réinitialiser les classes de style de l'image
+    imageElement.className = ''; // Supprime toutes les classes existantes
+    if (image.class) {
+        imageElement.classList.add(image.class); // Ajoute la classe si définie
+    }
+
+
+    textArea.className = 'text-area';
+    textnom.className = 'text-nom';
+    textContainer.className = 'text-info';
+
+    // Ajoute la nouvelle classe de style de texte si elle est définie
+    if (image.textClass) {
+        textArea.classList.add(image.textClass);
+        textnom.classList.add(image.textClass);
+        textContainer.classList.add(image.textClass);
+    }
+
+    if (image.class === "img-black") {
+        document.body.style.backgroundColor = "black";
+    } else {
+        document.body.style.backgroundColor = "";
+    }
+
+    // Mettre à jour la zone no-change pour refléter la nouvelle position
+    updateNoChangeZone();
+}
+
+
+        function updateNoChangeZone() {
+            const textArea = document.getElementById('text-area');
+            const noChangeZone = document.getElementById('no-change');
+
+            const rect = textArea.getBoundingClientRect();
+            noChangeZone.style.left = rect.left + 'px';
+            noChangeZone.style.top = rect.top + 'px';
+            noChangeZone.style.width = rect.width + 'px';
+            noChangeZone.style.height = rect.height + 'px';
+        }
+
+        document.body.addEventListener('click', (event) => { //click droite gauche
+            // Check if the click is within an excluded area
+            const excludedAreas = ['no-change'];
+            const isExcluded = excludedAreas.some(areaId => {
+                const element = document.getElementById(areaId);
+                return element && element.contains(event.target);
+            });
+
+            if (isExcluded) return;
+
+            const screenWidth = window.innerWidth;
+            const clickX = event.clientX;
+
+            if (clickX < screenWidth / 2) {
+                currentIndex = (currentIndex > 0) ? currentIndex - 1 : images.length - 1;
+            } else {
+                currentIndex = (currentIndex < images.length - 1) ? currentIndex + 1 : 0;
+            }
+            updateContent();
+        });
+
+        // droite gauche avec flèche 
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'ArrowRight') {
+                currentIndex = (currentIndex < images.length - 1) ? currentIndex + 1 : 0;
+            } else if (event.key === 'ArrowLeft') {
+                currentIndex = (currentIndex > 0) ? currentIndex - 1 : images.length - 1;
+            }
+            updateContent();
+        });
+
+
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        document.addEventListener('keydown', (event) => { // a surprimer très important!!!!!!!!!!!!!!!!!!
+            if (event.key === 'f') {
+                currentIndex = currentIndex + 20 ;
+            }
+            updateContent();
+        });
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        // Initial content
+        updateContent();
+
+        // Update no-change zone on window resize
+        window.addEventListener('resize', updateNoChangeZone);
+
+        function isMobileDevice() { //later
+            return (typeof window.orientation !== "undefined") || (navigator.userAgent.indexOf('IEMobile') !== -1);
+        }
+
+        if(isMobileDevice()){ //later
+            const orientation = window.orientation;
+        }
+
+    </script>
+</body>
+</html>

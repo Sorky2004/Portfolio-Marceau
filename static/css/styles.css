@@ -1,0 +1,189 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    height: 100vh;
+    margin: 0;
+    position: relative;
+    overflow: hidden; /* Empêche le défilement */
+    font-size: 18px;
+    font-family: "Helvetica", sans-serif;
+    font-weight: 700;
+}
+
+
+.fond-noir {
+    background-color: black;
+}
+.text-white {
+    color: white;
+}
+
+img{
+    display: block;  /* Élimine l'espace sous l'image */
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    pointer-events: none; /* Empêche les interactions de la souris avec l'image */
+}
+
+.img-white-HB {
+    display: block;  /* Élimine l'espace sous l'image */
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+
+}
+.img-white-20 {
+    display: block;  /* Élimine l'espace sous l'image */
+    max-width: 115%;
+    max-height: 115%;
+    object-fit: cover;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    pointer-events: none; /* Empêche les interactions de la souris avec l'image */
+}
+
+.img-11 {
+    display: block;  /* Élimine l'espace sous l'image */
+    max-width: 100%;
+    max-height: 100%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    pointer-events: none; /* Empêche les interactions de la souris avec l'image */
+}
+
+.img-12 {
+    display: block;  /* Élimine l'espace sous l'image */
+    max-width: 100%;
+    max-height: 100%;
+    width: 88%;
+    height: 88%;
+    object-fit: contain;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    pointer-events: none; /* Empêche les interactions de la souris avec l'image */
+}
+
+
+.img-album {
+    display: block;  /* Élimine l'espace sous l'image */
+    max-width: 100%;
+    max-height: 100%;
+    width: 74%;
+    height: 74%;
+    object-fit: contain;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    pointer-events: none; /* Empêche les interactions de la souris avec l'image */
+}
+
+
+.img-black{
+    display: block;  /* Élimine l'espace sous l'image */
+    max-width: 100%;
+    max-height: 100%;
+    min-width: 100%;
+    min-height: 100%;
+    object-fit: contain;
+    object-position: center;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    pointer-events: none; /* Empêche les interactions de la souris avec l'image */
+}
+
+.img-black-cover{
+    display: block;  /* Élimine l'espace sous l'image */
+    max-width: 100%;
+    max-height: 100%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    pointer-events: none; /* Empêche les interactions de la souris avec l'image */
+}
+
+
+.img-21{
+    display: block;  /* Élimine l'espace sous l'image */
+    max-width: 100%;
+    max-height: 100%;
+    width: 75%;
+    height: 75%;
+    object-fit: contain;
+    object-position: center;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    pointer-events: none; /* Empêche les interactions de la souris avec l'image */
+}
+
+.img-black-23{
+    display: block;  /* Élimine l'espace sous l'image */
+    max-width: 100%;
+    max-height: 100%;
+    width: 95%;
+    height: 95%;
+    object-fit: contain;
+    object-position: center;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    pointer-events: none; /* Empêche les interactions de la souris avec l'image */
+}
+
+.img-26 {
+    display: block;  /* Élimine l'espace sous l'image */
+    max-width: 100%;
+    max-height: 100%;
+    width:70%;
+    height: 70%;
+    object-fit: contain;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    pointer-events: none; /* Empêche les interactions de la souris avec l'image */
+}
+
+.img-26 {
+    display: block;  /* Élimine l'espace sous l'image */
+    max-width: 100%;
+    max-height: 100%;
+    width:80%;
+    height: 80%;
+    object-fit: contain;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    pointer-events: none; /* Empêche les interactions de la souris avec l'image */
+}

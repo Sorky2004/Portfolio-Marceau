@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Info</title>
+    <style>
+        body {
+            display: flex;
+            margin: 0;
+            font-size: 18px;
+            font-family: "Helvetica", sans-serif;
+            font-weight: 700;
+        }
+        a { /*lien hyper-text*/
+            text-decoration: none; /* Supprime le soulignement */
+            color: inherit; /* Prend la couleur du texte parent */
+        }
+        .container1 { /*info du centre*/
+            display: flex;
+            height: 100vh;
+            width: 100%;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            line-height: 1.2; 
+            z-index: 1;
+        }
+
+        .container2 { /*"Marceau Jacquin"*/
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: flex;
+            top: 20px;
+            left: 20px;
+            align-items: left; 
+            z-index: 2;
+        }
+
+
+        .clickable-area {
+            position: absolute; /* Positionne l'élément de manière fixe */
+            top: 0px; /* Distance du haut de la page */
+            right: 0px; /* Distance du bord droit de la page */
+            width: calc(100vw / 8);
+            height: 15vh;
+            text-align: end;
+            line-height: 100px;
+            cursor: pointer;
+            z-index: 10; /* Assure que l'élément est au-dessus d'autres éléments */
+        }
+
+
+        
+.text-container { /*"Projects/info"*/
+    position: absolute;
+    top: 20px; /* Padding de 10 pixels en haut */
+    right: 20px;
+    width: calc(100vw / 6); /* 1/6 de la largeur de la fenêtre */
+    display: flex;
+    height: 90%;
+    justify-content: right;
+    text-align: end;
+    z-index: 3;
+}
+
+
+    </style>
+</head>
+<body>
+    <div class="container2">Marceau Jacquin</div>
+    <div class="clickable-area" onclick="redirectToPage()"></div>
+        <div class="text-container" id="text-container">Projects</div>
+    <div class="container1">
+        <div>marceaujacquin@outlook.com</div>
+        <div><a href="https://www.instagram.com/marceau_jacquin?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank">@marceau_jacquin</a></div>
+        <div>+33695860992</div>
+        <div>Paris (France)</div>
+    </div>
+    <script>
+        function redirectToPage() {
+            window.location.href = "{{ url_for('home') }}";
+        }
+    </script>
+</body>
+</html>
