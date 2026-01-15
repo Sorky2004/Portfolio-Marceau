@@ -8,7 +8,6 @@
         body {
             display: flex;
             margin: 0;
-            font-size: 18px;
             font-family: "Helvetica", sans-serif;
             font-weight: 700;
         }
@@ -17,6 +16,7 @@
             color: inherit; /* Prend la couleur du texte parent */
         }
         .container1 { /*info du centre*/
+            font-size: 18px;
             display: flex;
             height: 100vh;
             width: 100%;
@@ -32,31 +32,30 @@
             top: 0;
             left: 0;
             display: flex;
-            top: 20px;
-            left: 20px;
+            top: 1vw;
+            left: 1vw;
             align-items: left; 
             z-index: 2;
         }
 
 
         .clickable-area {
-            position: absolute; /* Positionne l'élément de manière fixe */
+            position: fixed; /* Positionne l'élément de manière fixe */
             top: 0px; /* Distance du haut de la page */
             right: 0px; /* Distance du bord droit de la page */
-            width: calc(100vw / 8);
-            height: 15vh;
+            width: 12%;
+            height: 17%;
             text-align: end;
             line-height: 100px;
             cursor: pointer;
             z-index: 10; /* Assure que l'élément est au-dessus d'autres éléments */
         }
 
-
         
 .text-container { /*"Projects/info"*/
     position: absolute;
-    top: 20px; /* Padding de 10 pixels en haut */
-    right: 20px;
+    top: 1vw; /* Padding de 10 pixels en haut */
+    right: 1vw;
     width: calc(100vw / 6); /* 1/6 de la largeur de la fenêtre */
     display: flex;
     height: 90%;
@@ -64,6 +63,27 @@
     text-align: end;
     z-index: 3;
 }
+
+@media (max-width: 768px) {
+    /* Zone cliquable invisible : plus grande pour le confort tactile */
+    .clickable-area {
+        width: 25%;       /* Un quart de la largeur de l'écran max */
+        max-width: 120px;
+        height: 15%;      /* S'aligne sur la hauteur de la box info */
+        max-height: 60px;
+        }
+
+        .container1 {
+            font-size: 14px;
+        }
+        .text-container {
+            font-size: 14px;
+        }
+        .container2 {   
+            font-size: 14px;
+        }
+}
+
 
 
     </style>

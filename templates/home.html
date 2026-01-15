@@ -18,18 +18,16 @@
         }
         .text-nom { /*"Marceau Jacquin"*/
             position: absolute;
-            top: 0;
-            left: 0;
             display: flex;
-            top: 20px;
-            left: 20px;
+            top: 1vw;
+            left: 1vw;
             align-items: left; 
             z-index: 2;
         }
         .text-area {
             position: absolute;
-            bottom: 20px;
-            left: 20px;
+            bottom: 1vw;
+            left: 1vw;
             max-width: 500px;            
             align-items: end;
         }
@@ -44,50 +42,97 @@
             position: fixed; /* Positionne l'élément de manière fixe */
             top: 0px; /* Distance du haut de la page */
             right: 0px; /* Distance du bord droit de la page */
-            width: calc(100vw / 8);
-            height: 15vh;
+            width: 12%;
+            height: 17%;
             text-align: end;
             line-height: 100px;
             cursor: pointer;
             z-index: 10; /* Assure que l'élément est au-dessus d'autres éléments */
         }
 
-.text-info {/*"Projects/info"*/
-    position: absolute;
-    top: 20px; /* Padding de 10 pixels en haut */
-    right: 20px;
-    width: calc(100vw / 6); /* 1/6 de la largeur de la fenêtre */
-    display: flex;
-    height: 90%;
-    font-size: 14px;
-    justify-content: right;
-    text-align: end;
-    z-index: 3;
-}
+        .text-info {/*"Projects/info"*/
+            position: absolute;
+            top: 1vw;
+            right: 1vw;
+            width: calc(100vw / 6); /* 1/6 de la largeur de la fenêtre */
+            display: flex;
+            height: 20%;
+            font-size: 16px;
+            justify-content: right; 
+            text-align: end;
+            z-index: 3;
+        }
 
+        .textinfo p {
+            margin: 0;
+        }
+        .text-nom, .text-area, .text-info {
+            /* Empêche la sélection du texte */
+            -webkit-user-select: none; /* Safari */
+            -ms-user-select: none;      /* IE 10+ */
+            user-select: none;          /* Standard (Chrome, Firefox, Opera) */
+            
+            /* Empêche aussi le menu contextuel "Copier" sur certains mobiles */
+            -webkit-touch-callout: none; 
+        }
 
-.textinfo p {
-    margin: 0;
-}
-/* Ce code ne s'appliquera que si l'écran fait moins de 768px */
-@media (max-width: 768px) {
-    .container img {
-        width: 100vw;       /* Prend toute la largeur */
-        height: 90vh;      /* Prend toute la hauteur */
-        object-fit: contain; /* Garde l'image entière sans la couper */
-        background-color: transparent; 
-    }
+        /* Ce code ne s'appliquera que si l'écran fait moins de 768px */
+        @media (max-width: 768px) {
+            /* Suppression de la zone de blocage sur mobile */
+            .no-change {
+                display: none !important;
+            }
 
-    .text-area {
-        font-size: 14px;    /* On réduit un peu la taille du texte */
-        max-width: 80%;     /* On évite que le texte touche les bords */
-        bottom: 40px;       /* On le remonte un peu pour laisser de la place au pouce */
-    }
+            /* Container flexible */
+            .container {
+                height: 100dvh;
+                width: 100vw;
+            }
 
-    .text-nom, .text-info {
-        font-size: 14px;
-    }
-}
+            .container img {
+                max-width: 100%;
+                max-height: 100%;
+                width: auto;
+                height: auto;
+                object-fit: contain;
+            }
+
+            /* Box INFO : S'adapte au contenu sans dépasser */
+            .text-info {
+                top: 1vw;
+                right: 1vw;
+                max-width: 40%;   /* Ne prendra jamais plus de 40% de la largeur */
+                max-height: 10%;  /* Reste confiné en haut */
+                width: auto;
+                height: auto;
+                font-size: 14px;
+                z-index: 3;
+            }
+
+            /* Zone cliquable invisible : plus grande pour le confort tactile */
+            .clickable-area {
+                width: 25%;       /* Un quart de la largeur de l'écran max */
+                max-width: 120px;
+                height: 15%;      /* S'aligne sur la hauteur de la box info */
+                max-height: 60px;
+            }
+
+            /* Box TEXTE IMAGE (Bas gauche) */
+            .text-area {
+                bottom: 1vw;
+                left: 1vw;
+                max-width: 80%;   /* Évite que le texte ne traverse tout l'écran */
+                max-height: 20%;  /* Empêche le texte trop long de cacher l'image */
+                width: auto;
+                height: auto;
+                font-size: 14px;
+            }
+            .text-nom {
+                top: 1vw;
+                left: 1vw;
+                font-size: 14px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -496,6 +541,9 @@ function enableMobileMode() {
 
 
 function updateNoChangeZone() {
+// Si écran mobile, on ne calcule rien pour laisser le swipe libre
+    if (window.innerWidth <= 768) return;
+
     const textArea = document.getElementById('text-area');
     const noChangeZone = document.getElementById('no-change');
 
@@ -536,7 +584,7 @@ function handleDesktopKeyboard(event) {
 }
 
 function handleSwipe() {
-    const swipeThreshold = 50; // Distance minimum en pixels pour valider un swipe
+    const swipeThreshold = 40; // Distance minimum en pixels pour valider un swipe
     
     if (touchEndX < touchStartX - swipeThreshold) {
         // Swipe vers la GAUCHE -> Image suivante
