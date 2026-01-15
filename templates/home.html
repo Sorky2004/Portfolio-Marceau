@@ -59,6 +59,7 @@
     width: calc(100vw / 6); /* 1/6 de la largeur de la fenêtre */
     display: flex;
     height: 90%;
+    font-size: 14px;
     justify-content: right;
     text-align: end;
     z-index: 3;
@@ -68,7 +69,25 @@
 .textinfo p {
     margin: 0;
 }
+/* Ce code ne s'appliquera que si l'écran fait moins de 768px */
+@media (max-width: 768px) {
+    .container img {
+        width: 100vw;       /* Prend toute la largeur */
+        height: 90vh;      /* Prend toute la hauteur */
+        object-fit: contain; /* Garde l'image entière sans la couper */
+        background-color: transparent; 
+    }
 
+    .text-area {
+        font-size: 14px;    /* On réduit un peu la taille du texte */
+        max-width: 80%;     /* On évite que le texte touche les bords */
+        bottom: 40px;       /* On le remonte un peu pour laisser de la place au pouce */
+    }
+
+    .text-nom, .text-info {
+        font-size: 14px;
+    }
+}
     </style>
 </head>
 <body>
@@ -87,6 +106,10 @@
         }
         
         const IS_MOBILE = isMobileDevice();
+
+        let touchStartX = 0;
+
+        let touchEndX = 0;
 
         let currentIndex = 0;
 
@@ -457,25 +480,31 @@ function enableDesktopMode() {
 }
 
 function enableMobileMode() {
-    console.log("Mobile mode enabled");
+    console.log("Mobile mode enabled with Swipe");
 
-    // pour l’instant : rien
-    // on fera le swipe, le layout, etc. plus tard
+    // On écoute le début du toucher
+    document.addEventListener('touchstart', e => {
+        touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    // On écoute la fin du toucher
+    document.addEventListener('touchend', e => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    }, { passive: true });
 }
 
 
+function updateNoChangeZone() {
+    const textArea = document.getElementById('text-area');
+    const noChangeZone = document.getElementById('no-change');
 
-
-        function updateNoChangeZone() {
-            const textArea = document.getElementById('text-area');
-            const noChangeZone = document.getElementById('no-change');
-
-            const rect = textArea.getBoundingClientRect();
-            noChangeZone.style.left = rect.left + 'px';
-            noChangeZone.style.top = rect.top + 'px';
-            noChangeZone.style.width = rect.width + 'px';
-            noChangeZone.style.height = rect.height + 'px';
-        }
+    const rect = textArea.getBoundingClientRect();
+    noChangeZone.style.left = rect.left + 'px';
+    noChangeZone.style.top = rect.top + 'px';
+    noChangeZone.style.width = rect.width + 'px';
+    noChangeZone.style.height = rect.height + 'px';
+}
 
 function handleDesktopClick(event) {
     const excludedAreas = ['no-change'];
@@ -504,6 +533,21 @@ function handleDesktopKeyboard(event) {
         currentIndex = (currentIndex > 0) ? currentIndex - 1 : images.length - 1;
     }
     updateContent();
+}
+
+function handleSwipe() {
+    const swipeThreshold = 50; // Distance minimum en pixels pour valider un swipe
+    
+    if (touchEndX < touchStartX - swipeThreshold) {
+        // Swipe vers la GAUCHE -> Image suivante
+        currentIndex = (currentIndex < images.length - 1) ? currentIndex + 1 : 0;
+        updateContent();
+    } 
+    else if (touchEndX > touchStartX + swipeThreshold) {
+        // Swipe vers la DROITE -> Image précédente
+        currentIndex = (currentIndex > 0) ? currentIndex - 1 : images.length - 1;
+        updateContent();
+    }
 }
 
 if (IS_MOBILE) {
