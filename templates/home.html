@@ -99,12 +99,11 @@
 
             /* Box INFO : S'adapte au contenu sans dépasser */
             .text-info {
-                top: 1vw;
-                right: 1vw;
-                max-width: 40%;   /* Ne prendra jamais plus de 40% de la largeur */
-                max-height: 10%;  /* Reste confiné en haut */
+                top: 5vw;
+                right: 5vw;
                 width: auto;
                 height: auto;
+                justify-content: right; 
                 font-size: 14px;
                 z-index: 3;
             }
@@ -119,20 +118,40 @@
 
             /* Box TEXTE IMAGE (Bas gauche) */
             .text-area {
-                bottom: 1vw;
-                left: 1vw;
-                max-width: 80%;   /* Évite que le texte ne traverse tout l'écran */
-                max-height: 20%;  /* Empêche le texte trop long de cacher l'image */
+                bottom: 15vw;
+                left: 5vw;
                 width: auto;
                 height: auto;
                 font-size: 14px;
             }
             .text-nom {
-                top: 1vw;
-                left: 1vw;
+                top: 5vw;
+                left: 5vw;
                 font-size: 14px;
             }
-        }
+            .container {
+                height: 100dvh;
+                width: 100vw;
+                overflow: hidden;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .container img {
+                /* On tourne l'image */
+                transform: rotate(90deg);
+                /* ATTENTION : Comme l'image est tournée, 
+                sa hauteur devient sa largeur et inversement.
+                On utilise vh pour la largeur et vw pour la hauteur. */
+                width: auto;
+                height: auto;
+                max-width: 95vh;  /* Limite la "largeur" (qui est la hauteur réelle de l'image) */
+                max-height: 95vw; /* Limite la "hauteur" (qui est la largeur réelle de l'image) */
+                object-fit: contain;
+                pointer-events: none; /* Important pour le swipe */
+            }
+}
     </style>
 </head>
 <body>
@@ -142,7 +161,7 @@
         <div class="text-area" id="text-area">Texte de l'image 1</div> 
     </div>
     <div class="no-change" id="no-change"></div>
-    <div class="clickable-area" onclick="redirectToPage()"></div>
+    <div class="clickable-area" id="info-btn" onclick="redirectToPage()"></div>
         <div class="text-info" id="text-info">Info</div>
 
     <script>
@@ -437,42 +456,48 @@
             const textArea = document.getElementById('text-area');
             const textnom = document.getElementById('text-nom');
             const textContainer = document.getElementById('text-info');
-            const body = document.body;
 
-            // Mettre à jour la source de l'image
+            // Nettoyage du handler précédent (important)
+            imageElement.onload = null;
+
+            imageElement.onload = function () {
+
+                // Reset classes image
+                imageElement.className = '';
+                if (image.class) {
+                    imageElement.classList.add(image.class);
+                }
+
+                // Reset classes texte
+                textArea.className = 'text-area';
+                textnom.className = 'text-nom';
+                textContainer.className = 'text-info';
+
+                if (image.textClass) {
+                    textArea.classList.add(image.textClass);
+                    textnom.classList.add(image.textClass);
+                    textContainer.classList.add(image.textClass);
+                }
+
+                // Background
+                if (image.class === "img-black") {
+                    document.body.style.backgroundColor = "black";
+                } else {
+                    document.body.style.backgroundColor = "";
+                }
+
+                // Zones & preload
+                updateNoChangeZone();
+                if (IS_MOBILE) {
+                    preloadSurroundingImages(currentIndex, 2);
+                }
+            };
+
+            // Déclenche le chargement APRES avoir défini onload
             imageElement.src = image.src;
             textArea.innerText = image.text;
-
-            // Réinitialiser les classes de style de l'image
-            imageElement.className = ''; // Supprime toutes les classes existantes
-            if (image.class) {
-                imageElement.classList.add(image.class); // Ajoute la classe si définie
-            }
-
-
-            textArea.className = 'text-area';
-            textnom.className = 'text-nom';
-            textContainer.className = 'text-info';
-
-            // Ajoute la nouvelle classe de style de texte si elle est définie
-            if (image.textClass) {
-                textArea.classList.add(image.textClass);
-                textnom.classList.add(image.textClass);
-                textContainer.classList.add(image.textClass);
-            }
-
-            if (image.class === "img-black") {
-                document.body.style.backgroundColor = "black";
-            } else {
-                document.body.style.backgroundColor = "";
-            }
-
-            // Mettre à jour la zone no-change pour refléter la nouvelle position
-            updateNoChangeZone();
-            if (IS_MOBILE) {
-            preloadSurroundingImages(currentIndex, 2);
-            }
         }
+
 
         function loadContent(section) {
             const contentDiv = document.getElementById('content');
@@ -509,11 +534,6 @@
 
 
 
-// Liste des URL de tes images à précharger
-
-
-
-
 function enableDesktopMode() {
     console.log("Desktop mode enabled");
 
@@ -525,18 +545,8 @@ function enableDesktopMode() {
 }
 
 function enableMobileMode() {
-    console.log("Mobile mode enabled with Swipe");
-
-    // On écoute le début du toucher
-    document.addEventListener('touchstart', e => {
-        touchStartX = e.changedTouches[0].screenX;
-    }, { passive: true });
-
-    // On écoute la fin du toucher
-    document.addEventListener('touchend', e => {
-        touchEndX = e.changedTouches[0].screenX;
-        handleSwipe();
-    }, { passive: true });
+    console.log("Mobile mode enabled");
+    document.body.addEventListener('click', handleDesktopClick);
 }
 
 
@@ -555,7 +565,8 @@ function updateNoChangeZone() {
 }
 
 function handleDesktopClick(event) {
-    const excludedAreas = ['no-change'];
+    const excludedAreas = ['no-change', 'info-btn'];
+
     const isExcluded = excludedAreas.some(areaId => {
         const element = document.getElementById(areaId);
         return element && element.contains(event.target);
@@ -571,8 +582,10 @@ function handleDesktopClick(event) {
     } else {
         currentIndex = (currentIndex < images.length - 1) ? currentIndex + 1 : 0;
     }
+
     updateContent();
 }
+
 
 function handleDesktopKeyboard(event) {
     if (event.key === 'ArrowRight') {
@@ -583,20 +596,6 @@ function handleDesktopKeyboard(event) {
     updateContent();
 }
 
-function handleSwipe() {
-    const swipeThreshold = 40; // Distance minimum en pixels pour valider un swipe
-    
-    if (touchEndX < touchStartX - swipeThreshold) {
-        // Swipe vers la GAUCHE -> Image suivante
-        currentIndex = (currentIndex < images.length - 1) ? currentIndex + 1 : 0;
-        updateContent();
-    } 
-    else if (touchEndX > touchStartX + swipeThreshold) {
-        // Swipe vers la DROITE -> Image précédente
-        currentIndex = (currentIndex > 0) ? currentIndex - 1 : images.length - 1;
-        updateContent();
-    }
-}
 
 if (IS_MOBILE) {
     enableMobileMode();
