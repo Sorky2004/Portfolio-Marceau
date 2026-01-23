@@ -22,7 +22,7 @@
             top: 1vw;
             left: 1vw;
             align-items: left; 
-            z-index: 4;
+            z-index: 3;
         }
         .text-area { 
             position: absolute;
@@ -53,11 +53,11 @@
         .text-info {/*"Projects/info"*/
             position: absolute;
             display: flex;
-            align-items: right;
             top: 1vw;
             right: 1vw;
+            align-items: right;
             font-size: 16px;
-            z-index: 4;
+            z-index: 3;
         }
 
         .textinfo p {
@@ -94,7 +94,6 @@
                 object-fit: contain;
             }
 
-            /* Box INFO : S'adapte au contenu sans dépasser */
             .text-info {
                 top: 5vw;
                 right: 5vw;
@@ -150,12 +149,13 @@
 <body>
     <div class="container" id="image-container">
         <img id="image" src="{{ url_for('static', filename='images/example1.jpg') }}" alt="Example Image" draggable="false">
-        <div class="text-nom" id="text-nom">Marceau Jacquin</div>
+
         <div class="text-area" id="text-area">Texte de l'image 1</div> 
     </div>
     <div class="no-change" id="no-change"></div>
     <div class="clickable-area" id="info-btn" onclick="redirectToPage()"></div>
         <div class="text-info" id="text-info">Info</div>
+        <div class="text-nom" id="text-nom">Marceau Jacquin</div>
 
     <script>
     function isMobileDevice() {
