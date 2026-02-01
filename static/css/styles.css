@@ -129,7 +129,6 @@ img{
     pointer-events: none; /* Empêche les interactions de la souris avec l'image */
 }
 
-
 .img-21{
     display: block;  /* Élimine l'espace sous l'image */
     max-width: 100%;
