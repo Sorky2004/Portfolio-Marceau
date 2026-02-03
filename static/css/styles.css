@@ -162,12 +162,13 @@ img{
     pointer-events: none; /* Empêche les interactions de la souris avec l'image */
 }
 
-.img-26 {
+
+.img-poster {
     display: block;  /* Élimine l'espace sous l'image */
     max-width: 100%;
     max-height: 100%;
-    width:70%;
-    height: 70%;
+    width: 90%;
+    height: 90%;
     object-fit: contain;
     -webkit-user-select: none;
     -moz-user-select: none;
@@ -176,12 +177,26 @@ img{
     pointer-events: none; /* Empêche les interactions de la souris avec l'image */
 }
 
-.img-26 {
+.img-fromabove {
     display: block;  /* Élimine l'espace sous l'image */
     max-width: 100%;
     max-height: 100%;
-    width:80%;
-    height: 80%;
+    width: 85%;
+    height: 85%;
+    object-fit: contain;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    pointer-events: none; /* Empêche les interactions de la souris avec l'image */
+}
+
+.img-rebecq {
+    display: block;  /* Élimine l'espace sous l'image */
+    max-width: 100%;
+    max-height: 100%;
+    width: 95%;
+    height: 95%;
     object-fit: contain;
     -webkit-user-select: none;
     -moz-user-select: none;
