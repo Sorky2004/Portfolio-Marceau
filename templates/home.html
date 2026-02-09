@@ -148,9 +148,9 @@
 </head>
 <body>
     <div class="container" id="image-container">
-        <img id="image" src="{{ url_for('static', filename='images/example1.jpg') }}" alt="Example Image" draggable="false">
+        <img id="image" alt="Example Image" src="{{ url_for('static', filename='images/richardmille1.jpg') }}" draggable="false">
 
-        <div class="text-area" id="text-area">Texte de l'image 1</div> 
+        <div class="text-area" id="text-area"></div> 
     </div>
     <div class="no-change" id="no-change"></div>
     <div class="clickable-area" id="info-btn" onclick="redirectToPage()"></div>
@@ -169,6 +169,8 @@
         let touchEndX = 0;
 
         let currentIndex = 0;
+
+        let isFirstImage = true;
 
         let preloadedImages = [];
 
@@ -520,88 +522,72 @@
             }
        ];
 
-        function updateContent() {
-            const image = images[currentIndex];
-            const imageElement = document.getElementById('image');
-            const textArea = document.getElementById('text-area');
-            const textnom = document.getElementById('text-nom');
-            const textContainer = document.getElementById('text-info');
+function  updateContent() {
+    const imageData = images[currentIndex];
 
-            // Nettoyage du handler précédent (important)
-            imageElement.onload = null;
+    const imageElement = document.getElementById('image');
+    const textArea = document.getElementById('text-area');
+    const textnom = document.getElementById('text-nom');
+    const textContainer = document.getElementById('text-info');
 
-            imageElement.onload = function () {
+    function applyContent() {
 
-                // Reset classes image
-                imageElement.className = '';
-                if (image.class) {
-                    imageElement.classList.add(image.class);
+        /* IMAGE */
+        imageElement.className = '';
+        imageElement.src = imageData.src;
+
+        if (imageData.class) {
+            imageElement.classList.add(imageData.class);
+        }
+
+        /* TEXTE */
+        textArea.className = 'text-area';
+        textnom.className = 'text-nom';
+        textContainer.className = 'text-info';
+
+        if (imageData.textClass) {
+            textArea.classList.add(imageData.textClass);
+            textnom.classList.add(imageData.textClass);
+            textContainer.classList.add(imageData.textClass);
+        }
+
+        textArea.innerText = imageData.text;
+
+        /* BACKGROUND */
+        document.body.style.backgroundColor =
+            imageData.class === "img-black" ? "black" : "";
+
+        /* ZONES & PRELOAD */
+        updateNoChangeZone();
+
+        if (IS_MOBILE) {
+            preloadSurroundingImages(currentIndex, 4);
+        }
+    }
+
+    // 🔹 PREMIÈRE IMAGE → affichage direct
+    if (isFirstImage) {
+        isFirstImage = false;
+        applyContent();
+        return;
+    }
+
+    // 🔹 IMAGES SUIVANTES → preload sécurisé
+    const tempImg = new Image();
+    tempImg.onload = applyContent;
+    tempImg.src = imageData.src;
+}
+                function preloadSurroundingImages(index, count = 4) {
+                    const indices = [];
+                    for (let i = 0; i <= count; i++) {
+                        indices.push((index + i) % images.length);
+                    }
+
+                    indices.forEach(i => {
+                        const img = new Image();
+                        img.src = images[i].src;
+                    });
                 }
-
-                // Reset classes texte
-                textArea.className = 'text-area';
-                textnom.className = 'text-nom';
-                textContainer.className = 'text-info';
-
-                if (image.textClass) {
-                    textArea.classList.add(image.textClass);
-                    textnom.classList.add(image.textClass);
-                    textContainer.classList.add(image.textClass);
-                }
-
-                // Background
-                if (image.class === "img-black") {
-                    document.body.style.backgroundColor = "black";
-                } else {
-                    document.body.style.backgroundColor = "";
-                }
-
-                // Zones & preload
-                updateNoChangeZone();
-                if (IS_MOBILE) {
-                    preloadSurroundingImages(currentIndex, 4);
-                }
-            };
-
-            // Déclenche le chargement APRES avoir défini onload
-            imageElement.src = image.src;
-            textArea.innerText = image.text;
-        }
-
-
-        function loadContent(section) {
-            const contentDiv = document.getElementById('content');
-            if (section === 'info') {
-                contentDiv.innerHTML = '<h1>Section Info</h1><p>Contenu de la section Info.</p>';
-            } else if (section === 'home') {
-                contentDiv.innerHTML = '<h1>Section Home</h1><p>Contenu de la section Home.</p>';
-            }
-        }
-
-        function redirectToPage() {
-            window.location.href = "{{ url_for('info') }}";
-        }
-
-        function preloadImages(imageUrls) {
-            return imageUrls.map(url => {
-                const img = new Image();
-                img.src = url;
-                return img;
-            });
-        }
-        
-        function preloadSurroundingImages(index, count = 2) {
-            const indices = [];
-            for (let i = 1; i <= count; i++) {
-                indices.push((index + i) % images.length);
-            }
-
-            indices.forEach(i => {
-                const img = new Image();
-                img.src = images[i].src;
-            });
-        }
-
 
 
 function enableDesktopMode() {
